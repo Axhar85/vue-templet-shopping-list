@@ -7,12 +7,22 @@
 </head>
 <body>
     <div id="shopping-list">
+        <div>
         <h1> {{header.toLocaleUpperCase() }} </h1>
+        <button v-if="state === 'default'" @click= "changeState('edit')">Add me</button>
+        <button v-else @click= "changeState('default')">cancel</button>
+        </div>
+        
+        <div> 
+
         <input type="text" placeholder="Please add item" v-model='newItem' @keyup.enter="saveItems">
-        <button @click="saveItems">Add items</button>
+        <button v-bind:disabled="newItem.length === 0" @click="saveItems" >Add items</button>
+        </div>
+        
         <ul>
             <li v-for=" item in items"> {{item}} </li>
         </ul>
+        <p v-if="items.length === 0">Nice Job! you have bought all items.</p>
     </div>
     <script src="https://unpkg.com/vue"></script>
 
@@ -20,6 +30,7 @@
         var shoppingList = new Vue({
             el: '#shopping-list',
             data: {
+                state: 'default',
                 header: 'Shopping list app',
                 newItem: '',
                 items: [
@@ -32,6 +43,11 @@
                 saveItems: function() {
                     this.items.push(this.newItem);
                     this.newItem='';
+                },
+                changeState: function(newState) {
+                    this.state = newState;
+
+                    this.newItem = '';
                 }
             }
         });
