@@ -7,13 +7,34 @@
 </head>
 <body>
     <div id="shopping-list">
-        <h1>Hi vue</h1>
-
+        <h1> {{header.toLocaleUpperCase() }} </h1>
+        <input type="text" placeholder="Please add item" v-model='newItem' @keyup.enter="saveItems">
+        <button @click="saveItems">Add items</button>
+        <ul>
+            <li v-for=" item in items"> {{item}} </li>
+        </ul>
     </div>
     <script src="https://unpkg.com/vue"></script>
 
     <script>
-
+        var shoppingList = new Vue({
+            el: '#shopping-list',
+            data: {
+                header: 'Shopping list app',
+                newItem: '',
+                items: [
+                    '10 party hats',
+                    '5 board games',
+                    '20 cups',
+                ]
+            },
+            methods: {
+                saveItems: function() {
+                    this.items.push(this.newItem);
+                    this.newItem='';
+                }
+            }
+        });
     </script>
 </body>
 </html>
